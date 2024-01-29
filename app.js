@@ -150,9 +150,9 @@ app.delete('/eremove/:id',async(req,res)=>{
 })
 
 //candidate details handle
-app.post('/cadd',(req,res)=>{
-    new candidateModel(req.body).save();
-    res.send("Election Data Added")
+app.post('/cadd',async (req,res)=>{
+    await new candidateModel(req.body).save();
+    res.send("candidate Data Added")
 })
 app.get('/cview',async(req,res)=>{
     let rslt = await candidateModel.find();
@@ -172,6 +172,7 @@ app.delete('/cremove/:id',async(req,res)=>{
 })
 
 
-app.listen(8080,()=>{
-    console.log("port 8080 is up and running")
+app.listen(8000,()=>{
+    console.log("port 8000 is up and running")
 })
+

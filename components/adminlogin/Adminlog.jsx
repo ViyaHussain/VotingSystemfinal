@@ -1,25 +1,26 @@
-import axios from 'axios';
 import React, { useState } from 'react'
-import styles from "./styles.module.css"
-import { Link } from 'react-router-dom';
+import styles from './styles.module.css'
+import axios from 'axios';
+import { Link, useNavigate } from 'react-router-dom';
 
-const Login = () => {
-    const [data, setData] = useState({ email: "", password: "" });
-	const [error, setError] = useState("");
+function Adminlog() {
+	const navigate = useNavigate()
+    const [data,setData]=useState({username: "", password: "" });
+    const [error,setError]=useState("");
 
-	const handleChange = ({ currentTarget: input }) => {
+    const handleChange = ({ currentTarget: input }) => {
 		setData({ ...data, [input.name]: input.value });
 	};
 
-	const handleSubmit = async (e) => {
+    const handleSubmit = async (e) => {
 		e.preventDefault();
 		try {
-			const url = "http://localhost:8080/userlogin";
+			const url = "http://localhost:8080/adminlogin";
 			const { data: res } = await axios.post(url, data);
 			localStorage.setItem("token", res.data);
 			console.log('before navigation')
-			//go to home page
-			window.location = "/";
+			//go to dashboard page
+			navigate("/dashboard");
 			console.log('after navigation')
 		} catch (error) {
 			if (
@@ -34,16 +35,16 @@ const Login = () => {
 
   return (
     <div className={styles.login_container}>
-		<div className={styles.login_form_container}>
+        <div className={styles.login_form_container}>
 			<div className={styles.left}>
 				<form className={styles.form_container} onSubmit={handleSubmit}>
 					<h1>Login to Your Account</h1>
 						<input
-							type="email"
-							placeholder="Email"
-							name="email"
+							type="text"
+							placeholder="Username"
+							name="username"
 							onChange={handleChange}
-							value={data.email}
+							value={data.username}
 							required
 							className={styles.input}
 						/>
@@ -62,18 +63,17 @@ const Login = () => {
 						</button>
 				</form>
 			</div>
-			<div className={styles.right}>
-				<h1>New Here ?</h1>
-					<Link to="/signup">
+            <div className={styles.right}>
+				<h1>Go Back ?</h1>
+					<Link to="/login">
 						<button type="button" className={styles.white_btn}>
-							Sign Up
+							Back
 						</button>
 					</Link>
-					<Link to="/adminlogin" style={{color:'black'}}>ad</Link>
 			</div>
-		</div>
-	</div>
+        </div>
+    </div>
   )
 }
 
-export default Login
+export default Adminlog

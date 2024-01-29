@@ -11,8 +11,8 @@ var Schema=mongoose.Schema;
 var electionSchema=new Schema({
     electionName:{type: String, required:true},
     candidatesNo:{type: Number, integer:true},
-    startingDate:{type: Date, required:true},
-    endingDate:{type: Date, required:true},
+    startingDate:{type: String, required:true},
+    endingDate:{type: String, required:true},
     status:{type: String, required:true},
 })
 

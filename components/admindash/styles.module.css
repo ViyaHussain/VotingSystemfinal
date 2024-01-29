@@ -1,16 +1,18 @@
 /* AdminDashboard.css */
 
-.dashboard-container {
+.dashboard {
     display: flex;
-    max-width: 1200px;
-    margin: 50px auto;
   }
   
   .sidebar {
-    width: 20%;
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 15%;
+    height: 100vh;
     padding: 20px;
-    background-color: #333;
-    color: white;
+    background-color: #4ff9c3;
+    color: black;
   }
   
   .sidebar h2 {
@@ -35,32 +37,61 @@
   .content {
     flex: 1;
     padding: 20px;
+    position: absolute;
+    right: 10%;
   }
   
   .content h2 {
     color: #333;
   }
-  
-  .quick-stats {
-    display: flex;
-    justify-content: space-around;
-    margin-top: 20px;
+
+  table{
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 16px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   }
-  
-  .stat-card {
-    background-color: #f4f4f4;
-    padding: 20px;
-    border-radius: 5px;
-    text-align: center;
+  th, td{
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
   }
-  
-  .stat-card h3 {
-    margin-bottom: 10px;
+
+  th{
+    background-color: #f2f2f2;
   }
-  
-  .stat-card p {
-    font-size: 1.5rem;
+
+  .greenBtn{
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 16px;
     font-weight: bold;
-    color: #4caf50;
+    text-align: center;
+    text-decoration: none;
+    background-color: #4caf50;
+    color: #fff;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
   }
-  
+  .greenBtn:hover{
+    background-color: #45a049;
+  }
+
+  .redBtn{
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+    background-color: #FF0000;
+    color: #fff;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  .redBtn:hover{
+    background-color: #CC0000;
+  }

@@ -1,11 +1,59 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import styles from "./styles.module.css";
+import axios from 'axios';
 
 const Home = () => {
+
   const handleLogout = () => {
 		localStorage.removeItem("token");
 		window.location.reload();
 	};
+  
+  const [formData,setFormData] = useState({
+    name: '',
+    email: '',
+    rollNo: '',
+    Dept: '',
+    position: '',
+    applicationDate: ''
+  });
+  const [error, setError] = useState("");
+  const [cand,setCand] = useState([]);
+
+  const handleChange = ({currentTarget:input}) => {
+    setFormData({
+      ...formData,
+      [input.name]: input.value
+    });
+  };
+
+  const handleSubmit = async(e) => {
+    e.preventDefault();
+    try{
+      const url ="";
+      const {formData:res} = await axios.post(url,formData);
+      console.log(res.message);
+    }catch(error){
+      if(
+        error.response &&
+        error.response.status >= 400 &&
+        error.response.status <= 500
+      ){
+        setError(error.response.formData.message);
+      }
+    }
+
+  };
+
+  useEffect(() => {
+    //fetch candidates details
+    axios.get("http://localhost:8080/cview")
+    .then((cand)=>{
+      setCand(cand.data);
+    })
+    .catch((err)=>console.error("Error fetching candidates details:",err));
+  },[]);
+
   return (
     <div className={styles.main_container}>
 			<nav className={styles.navbar}>
@@ -31,7 +79,7 @@ const Home = () => {
         />
         <button className={styles.voting_btn}>Go to Voting</button>
       </div>
-      <div id='about'>
+      <div id='about' style={{marginBottom:'25%'}}>
         <h2><center>About</center></h2>
         <p>
         Voting is a method for a group, 
@@ -51,9 +99,53 @@ const Home = () => {
           style={{position:'absolute', right:'5%'}}
         />
       </div>
-      <div id='apply'>
+      <div id='apply' className={styles.forms} style={{position:'absolute', left:'1%'}}>
+        <h2>Candidate Form</h2>
+        <form onSubmit={handleSubmit} className={styles.formGrid}>
+          <div className='formColum'>
+            <label htmlFor='name'>Name:</label>
+              <input type='text' id='name' name='name' value={formData.name} onChange={handleChange}/>
+            <label htmlFor='email'>Email:</label>
+              <input type='emai' id='email' name='email' value={formData.email} onChange={handleChange}/>
+            <label htmlFor='rollNo'>RollNo:</label>
+              <input type='text' id='rollNo' name='rollNo' value={formData.rollNo} onChange={handleChange}/>
+          </div>
+          <div className={styles.formColum}>
+            <label htmlFor='Dept'>Department:</label>
+              <input type='text' id='Dept' name='Dept' value={formData.Dept} onChange={handleChange}/>
+            <label htmlFor='position'>Position:</label>
+              <input type='text' id='position' name='position' value={formData.position} onChange={handleChange}/>
+            <label htmlFor='applicationDate'>Application Date:</label>
+              <input type='text' id='applicaitonDate' name='applicationDate' value={formData.applicaitonDate} onChange={handleChange}/>
+              </div>
+            {error && <div className={styles.error_msg}>{error}</div>}
+          <button type='submit'>Apply Now</button>
+        </form>
       </div>
-      
+      <div>
+      <table className={styles.tables} style={{position:'absolute', right:'5%'}}>
+              <thead>
+                <th>Name</th>
+                <th></th>
+                <th>Department</th>
+                <th></th>
+                <th>Position</th>
+              </thead>
+              <tbody>
+                {
+                  cand.map(cand =>{
+                    return<tr>
+                      <td>{cand.name}</td>
+                      <td></td>
+                      <td>{cand.Dept}</td>
+                      <td></td>
+                      <td>{cand.position}</td>
+                    </tr>
+                  })
+                }
+              </tbody>
+            </table>
+      </div>
 		</div>
   )
 }

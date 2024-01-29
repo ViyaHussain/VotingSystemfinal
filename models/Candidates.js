@@ -14,9 +14,7 @@ var candidateSchema=new Schema({
     rollNo:{type: String, required:true},
     Dept:{type: String, required:true},
     position:{type:String,required:true},
-    photo:{type:Buffer},
-    marklist:{type:Buffer},
-    applicationDate:{type:Date,require:true},
+    applicationDate:{type:String,require:true},
     status:{type:String,require:true}
 
 })
