@@ -1,23 +1,29 @@
 /* AdminDashboard.css */
 
+body{
+  font-family: 'Arial', sans-serif;
+  background-color: #f2f2f2;
+  margin: 0;
+  padding: 0;
+}
+
 .dashboard {
     display: flex;
   }
+
+/*sidebar*/
   
   .sidebar {
-    position: fixed;
-    left: 0;
-    top: 0;
-    width: 15%;
-    height: 100vh;
+    width: 250px;
     padding: 20px;
-    background-color: #4ff9c3;
-    color: black;
+    background-color: #333;
+    color: white;
+    box-shadow: 2px 0px 5px rgba(0, 0, 0, 0.1);
   }
-  
+
   .sidebar h2 {
-    font-size: 1.5rem;
     margin-bottom: 20px;
+    color: #7adefd;
   }
   
   .sidebar ul {
@@ -25,73 +31,82 @@
     padding: 0;
   }
   
-  .sidebar li {
+  .sidebar ul li {
     margin-bottom: 10px;
-    cursor: pointer;
   }
   
-  .sidebar li:hover {
-    color: #4caf50;
+  .sidebar a {
+    text-decoration: non;
+    color: white;
+    font-weight: bold;
+    font-size: 16px;
   }
+
+  .sidebar a:hover{
+    color: #7adefd;
+  }
+ 
+ /*Content area*/ 
   
   .content {
-    flex: 1;
     padding: 20px;
-    position: absolute;
-    right: 10%;
+    background-color: white;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
   }
   
-  .content h2 {
-    color: #333;
-  }
+/*Table*/
 
   table{
     width: 100%;
     border-collapse: collapse;
-    margin: 20px 0;
-    font-size: 16px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   }
+
+  .tableContainer{
+    margin-top: 20px;
+  }
+
   th, td{
-    padding: 12px;
+    padding: 10px;
     text-align: left;
     border-bottom: 1px solid #ddd;
   }
 
-  th{
-    background-color: #f2f2f2;
+  tbody tr:nth-child(even){
+    background-color: #f9f9f9;
+  }
+
+/*Button*/
+
+  button{
+    padding: 10px;
+    cursor: pointer;
+    border: none;
+    outline: none;
+  }
+
+  button:hover{
+    opacity: 0.8;
   }
 
   .greenBtn{
-    display: inline-block;
-    padding: 10px 20px;
-    font-size: 16px;
-    font-weight: bold;
-    text-align: center;
-    text-decoration: none;
     background-color: #4caf50;
-    color: #fff;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-  }
-  .greenBtn:hover{
-    background-color: #45a049;
+    color: white;
   }
 
   .redBtn{
-    display: inline-block;
-    padding: 10px 20px;
-    font-size: 16px;
-    font-weight: bold;
-    text-align: center;
-    text-decoration: none;
-    background-color: #FF0000;
-    color: #fff;
-    border-radius: 5px;
+    background-color: #f44336;
+    color: white;
+  }
+
+  .addBtn{
+    background-color: #2196f3;
+    color: white;
+  }
+
+  .logoutBtn{
+    background: #7adefd;
+    border: none;
     cursor: pointer;
-    transition: background-color 0.3s;
+    color: white;
   }
-  .redBtn:hover{
-    background-color: #CC0000;
-  }
+  

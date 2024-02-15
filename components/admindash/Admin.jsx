@@ -1,12 +1,16 @@
 import React, { useEffect, useState } from 'react'
 import styles from "./styles.module.css";
 import axios from 'axios';
+import { Link, useNavigate } from 'react-router-dom';
+import HowToVoteIcon from '@mui/icons-material/HowToVote';
 
 function Admin() {
 
+  const navigate = useNavigate();
+
   const handleLogout = () => {
 		localStorage.removeItem("token");
-		window.location.reload();
+		navigate('/login');
 	};
   
   const [users,setUsers] = useState([]);
@@ -15,22 +19,24 @@ function Admin() {
 
   //fetch user details
   useEffect(() => {
-    axios.get("http://localhost:8000/uview")
+    axios.get("http://localhost:8000/acceptuserview")
     .then((users)=>{
       setUsers(users.data);
     })
     .catch((err)=>console.error('Error fetching user details:',err));
   },[]);
-  //delete user details
-  const handleUserDelete = async(email) =>{
+  
+  //remove user details
+  const handleUserDelete = async (id) =>{
     try{
-      await axios.delete("http://localhost:8000/uremove/${user.eamil}");
-      setUsers(users.filter(user => user.email !== email));
-      console.log("user deleted successfully");
+      await axios.delete("http://localhost:8000/uremove/"+id)
+      setUsers(users.filter((user) => user.id !== id));
+      console.log("user deleted successfully")
+      window.location.reload(false);
     }catch(error){
-      console.error('Error or deleting user:',error);
+      console.error('error deleting user', error);
     }
-  };
+  }
 
   //fetch candidates details
   useEffect(() => {
@@ -40,6 +46,17 @@ function Admin() {
     })
     .catch((err)=>console.error("Error fetching candidates details:",err));
   },[]);
+  //reject the candidates
+  const handleCandidateDelete = async (id) =>{
+    try{
+      await axios.delete("http://localhost:8000/cremove/"+id)
+      setUsers(cand.filter((cand) => cand.id !== id));
+      console.log("user deleted successfully")
+      window.location.reload(false);
+    }catch(error){
+      console.error('error deleting user', error);
+    }
+  }
 
   //fetch election details
   useEffect(()=>{
@@ -54,6 +71,7 @@ function Admin() {
   return (
     <div className={styles.dashboard}>
         <div className={styles.sidebar}>
+          <HowToVoteIcon/>
             <h2>Admin Dashboard</h2>
             <ul>
                 <li><a href='#dashboard'>Dashboard</a></li>
@@ -62,15 +80,16 @@ function Admin() {
                 <li><a href='#candidates'>Candidates</a></li>
                 <li><a href='#election'>Election</a></li>
                 <li>
-                  <button style={{background:"#4ff9c3", border:"none", cursor:"pointer"}} onClick={handleLogout}>Logout</button>
+                  <button className={styles.logoutBtn} onClick={handleLogout}>Logout</button>
                 </li>
             </ul>
         </div>
         <div className={styles.content}>
           <h2>Welcome, Admin!</h2>
 
-          <div id='#users' style={{marginBottom:"10%"}}>
+          <div id='users' className={styles.tableContainer}>
             <h3>User List</h3>
+            <Link to='/acceptanceform'>UserAcceptance</Link>
             <table>
               <thead>
                 <th>Name</th>
@@ -84,13 +103,14 @@ function Admin() {
               <tbody>
                 {
                   users.map(user => {
-                    return<tr>
+                    return<tr key={user.id}> 
                       <td>{user.username}</td>
                       <td></td>
                       <td>{user.email}</td>
                       <td></td>
                       <td>{user.rollNo}</td>
-                      <td><button className={styles.redBtn} onClick={()=>handleUserDelete(user.email)}>remove</button></td>
+                      <td><button className={styles.redBtn}
+                            onClick={() => handleUserDelete(user._id)}>remove</button></td>
                     </tr>
                   })
                 }
@@ -98,7 +118,7 @@ function Admin() {
             </table>
           </div>
 
-          <div id='#candidates'>
+          <div id='candidates' className={styles.tableContainer}>
             <h3>Candidates</h3>
             <table>
               <thead>
@@ -134,7 +154,8 @@ function Admin() {
                       <td>{cand.applicationDate}</td>
                       <td></td>
                       <td><button className={styles.greenBtn}>accept</button></td>
-                      <td><button className={styles.redBtn}>reject</button></td>
+                      <td><button className={styles.redBtn}
+                            onClick={() => handleCandidateDelete(cand._id)}>reject</button></td>
                     </tr>
                   })
                 }
@@ -142,7 +163,7 @@ function Admin() {
             </table>
           </div>
 
-          <div id='#election'>
+          <div id='election' className={styles.tableContainer}>
             <h3>Elections</h3>
             <button>Add Elections</button>
             <h3>Election List</h3>
@@ -155,6 +176,8 @@ function Admin() {
                 <th>endingDate</th>
                 <th></th>
                 <th>status</th>
+                <th></th>
+                <th></th>
                 
               </thead>
               <tbody>
@@ -177,7 +200,7 @@ function Admin() {
             </table>
           </div>
 
-          <div id='#report'>
+          <div id='report'>
             <h3>Reports</h3>
           </div>
 

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import styles from "./styles.module.css";
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 const Home = () => {
 
@@ -30,7 +31,7 @@ const Home = () => {
   const handleSubmit = async(e) => {
     e.preventDefault();
     try{
-      const url ="";
+      const url ="http://localhost:8000/cadd";
       const {formData:res} = await axios.post(url,formData);
       console.log(res.message);
     }catch(error){
@@ -47,7 +48,7 @@ const Home = () => {
 
   useEffect(() => {
     //fetch candidates details
-    axios.get("http://localhost:8080/cview")
+    axios.get("http://localhost:8000/cview")
     .then((cand)=>{
       setCand(cand.data);
     })
@@ -65,7 +66,7 @@ const Home = () => {
           <a href='#'>Profile</a>
           <a href='#'>Result</a>
         </div>
-				<button className={styles.white_btn} onClick={handleLogout}>
+				<button className={styles.logOutBtn} onClick={handleLogout}>
 					Logout
 				</button>
 			</nav>
@@ -77,7 +78,10 @@ const Home = () => {
           height="600px"
           
         />
-        <button className={styles.voting_btn}>Go to Voting</button>
+        <Link to='/votingpage'>
+        <button className={styles.voting_btn}>Make Your Mark</button>
+        </Link>
+        
       </div>
       <div id='about' style={{marginBottom:'25%'}}>
         <h2><center>About</center></h2>

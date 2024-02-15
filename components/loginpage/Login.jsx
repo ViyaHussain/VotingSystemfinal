@@ -14,7 +14,7 @@ const Login = () => {
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		try {
-			const url = "http://localhost:8080/userlogin";
+			const url = "http://localhost:8000/userlogin";
 			const { data: res } = await axios.post(url, data);
 			localStorage.setItem("token", res.data);
 			console.log('before navigation')
@@ -60,6 +60,8 @@ const Login = () => {
 						<button type="submit" className={styles.green_btn}>
 							Sign In
 						</button>
+
+						<Link>Forgot Password?</Link>
 				</form>
 			</div>
 			<div className={styles.right}>
@@ -68,8 +70,8 @@ const Login = () => {
 						<button type="button" className={styles.white_btn}>
 							Sign Up
 						</button>
-					</Link>
-					<Link to="/adminlogin" style={{color:'black'}}>ad</Link>
+					</Link><br/>
+					<Link to="/adminlogin" style={{color:'black'}}>admin</Link>
 			</div>
 		</div>
 	</div>

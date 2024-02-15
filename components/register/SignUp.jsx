@@ -4,37 +4,54 @@ import styles from "./styles.module.css";
 import axios from 'axios';
 
 const SignUp = () => {
-    const [data, setData] = useState({
+    const [userData, setUserData] = useState({
 		username: "",
 		password: "",
 		rollNo: "",
 		Dept: "",
         email:""
 	});
-	const [error, setError] = useState("");
-	const navigate = useNavigate();
 
-	const handleChange = ({ currentTarget: input }) => {
-		setData({ ...data, [input.name]: input.value });
+	const handleInputchange = (e) => {
+		const {name, value} = e.target;
+		setUserData({...userData, [name]:value});
 	};
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
-		try {
-			const url = "http://localhost:8080/register";
-			const { data: res } = await axios.post(url, data);
-			navigate("/login");
-			console.log(res.message);
-		} catch (error) {
-			if (
-				error.response &&
-				error.response.status >= 400 &&
-				error.response.status <= 500
-			) {
-				setError(error.response.data.message);
-			}
+
+		try{
+			await axios.post('http://localhost:8000/register-request', userData);
+			alert('Registration request submitted successfully!');
+		}catch(error){
+			console.error('Error submitting registrtion request:', error);
+			alert('Error submitting registration request. Please try again.');
 		}
 	};
+	// const [error, setError] = useState("");
+	// const navigate = useNavigate();
+
+	// const handleChange = ({ currentTarget: input }) => {
+	// 	setData({ ...data, [input.name]: input.value });
+	// };
+
+	// const handleSubmit = async (e) => {
+	// 	e.preventDefault();
+	// 	try {
+	// 		const url = "http://localhost:8080/register";
+	// 		const { data: res } = await axios.post(url, data);
+	// 		navigate("/login");
+	// 		console.log(res.message);
+	// 	} catch (error) {
+	// 		if (
+	// 			error.response &&
+	// 			error.response.status >= 400 &&
+	// 			error.response.status <= 500
+	// 		) {
+	// 			setError(error.response.data.message);
+	// 		}
+	// 	}
+	// };
 
     return (
 		<div className={styles.signup_container}>
@@ -54,8 +71,8 @@ const SignUp = () => {
 							type="text"
 							placeholder="Name"
 							name="username"
-							onChange={handleChange}
-							value={data.username}
+							onChange={handleInputchange}
+							value={userData.username}
 							required
 							className={styles.input}
 						/>
@@ -63,8 +80,8 @@ const SignUp = () => {
 							type="password"
 							placeholder="password"
 							name="password"
-							onChange={handleChange}
-							value={data.password}
+							onChange={handleInputchange}
+							value={userData.password}
 							required
 							className={styles.input}
 						/>
@@ -72,8 +89,8 @@ const SignUp = () => {
 							type="text"
 							placeholder="RollNo"
 							name="rollNo"
-							onChange={handleChange}
-							value={data.rollNo}
+							onChange={handleInputchange}
+							value={userData.rollNo}
 							required
 							className={styles.input}
 						/>
@@ -81,8 +98,8 @@ const SignUp = () => {
 							type="text"
 							placeholder="department"
 							name="Dept"
-							onChange={handleChange}
-							value={data.Dept}
+							onChange={handleInputchange}
+							value={userData.Dept}
 							required
 							className={styles.input}
 						/>
@@ -90,12 +107,12 @@ const SignUp = () => {
 							type="email"
 							placeholder="email"
 							name="email"
-							onChange={handleChange}
-							value={data.email}
+							onChange={handleInputchange}
+							value={userData.email}
 							required
 							className={styles.input}
 						/>
-						{error && <div className={styles.error_msg}>{error}</div>}
+						{/* {error && <div className={styles.error_msg}>{error}</div>} */}
 						<button type="submit" className={styles.green_btn}>
 							Sign Up
 						</button>

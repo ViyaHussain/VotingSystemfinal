@@ -15,7 +15,7 @@ function Adminlog() {
     const handleSubmit = async (e) => {
 		e.preventDefault();
 		try {
-			const url = "http://localhost:8080/adminlogin";
+			const url = "http://localhost:8000/adminlogin";
 			const { data: res } = await axios.post(url, data);
 			localStorage.setItem("token", res.data);
 			console.log('before navigation')
@@ -61,6 +61,8 @@ function Adminlog() {
 						<button type="submit" className={styles.green_btn}>
 							Sign In
 						</button>
+
+						<Link to="/forgot-password">Forgot Password?</Link>
 				</form>
 			</div>
             <div className={styles.right}>
